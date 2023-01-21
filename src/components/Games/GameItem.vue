@@ -77,7 +77,7 @@ export default {
     methods: {
         attemptSelection(key){
             // console.log(key)
-            if (this.game.status === Status.PREVIEW){
+            if (this.game.status === Status.PREVIEW && !this.predictionLocked){
                 if(this.game.teams.away.id === key){
                     this.awaySelected = !this.awaySelected;
                     this.homeSelected = false;
