@@ -41,6 +41,15 @@
                         v-on:click="makePrediction">
                 Make Prediction
             </button>
+
+            
+        </div>
+
+        <div class="dropdown-container">
+            <DropdownItem v-if="showDropDown" v-bind:goalData="game.goalData"/>
+            
+            <p  v-on:click="toggleDropdown" v-if="game.status != 'Preview' && !showDropDown" class="expand_button" >▼</p>
+            <p  v-on:click="toggleDropdown" v-if="game.status != 'Preview' && showDropDown" class="expand_button" >▲</p>
         </div>
         
     </div> 
@@ -55,11 +64,13 @@ const Status = {
 };
 
 import TeamItem from "./TeamItem.vue";
+import DropdownItem from "./DropdownItem.vue"
 
 export default {
     name: "GameItem",
     components:{
-        TeamItem
+        TeamItem,
+        DropdownItem
     },
     data(){
         return{
@@ -71,10 +82,15 @@ export default {
             homeSelected: false,
             awayPredicted: false,
             homePredicted: false,
-            predictionLocked: this.game.status !== Status.PREVIEW
+            predictionLocked: this.game.status !== Status.PREVIEW,
+            expandString: '▼',
+            showDropDown: false,
         }
     },
     methods: {
+        toggleDropdown(){
+            this.showDropDown = !this.showDropDown;
+        },
         attemptSelection(key){
             // console.log(key)
             if (this.game.status === Status.PREVIEW && !this.predictionLocked){
@@ -164,5 +180,18 @@ export default {
     }
     .button-container{
         display: flex;
+    }
+    .expand_button{
+        text-align: center;
+        margin:auto;
+        margin-bottom: 10px;
+        border-top:3px lightgrey solid;
+        /* padding-left: 10px;
+        padding-right: 10px; */
+        cursor: pointer;
+        width:40px;
+    }
+    .expand_button:hover{
+        background: rgb(227, 227, 227);
     }
 </style>

@@ -87,12 +87,14 @@
             });
         },
         parseGame(response) {
+            // console.log(response)
             let game = {
                 id: response.gamePk,
                 status: response.gameData.status.abstractGameState,
                 startTime: response.gameData.datetime.dateTime,
                 currentPeriod: response.liveData.linescore.currentPeriod,
                 currentPeriodTimeLeft: response.liveData.linescore.currentPeriodTimeRemaining,
+                goalData: this.initGoalData(response.liveData.plays),
                 teams: {
                     away: this.initTeam(response.liveData.boxscore.teams.away),
                     home: this.initTeam(response.liveData.boxscore.teams.home),
@@ -106,6 +108,16 @@
             }
 
             return game;
+        },
+        initGoalData(plays){
+            let goalData = [];
+
+            plays.scoringPlays.forEach(e => {
+                console.log(plays.allPlays[e])
+                goalData.push(plays.allPlays[e])
+            });
+
+            return goalData;
         },
         initTeam(teamData) {
             return {
